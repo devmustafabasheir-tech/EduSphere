@@ -1,11 +1,17 @@
-import { Injectable } from "@nestjs/common"
+import { Body, Injectable, ValidationPipe } from "@nestjs/common"
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { Teacher } from "./teacher.schema";
+import { CreateTeacherDto } from "./dto/create-teacher.dto";
 
 @Injectable()
 export class TeacherService {
-    constructor(@InjectModel(Teacher.name) private teacherModule: Model<Teacher>) { };
+    constructor(@InjectModel(Teacher.name) private teacherModel: Model<Teacher>) { };
+
+    async create(createTeacherDto: CreateTeacherDto) {
+        const teacher = await this.teacherModel.create(createTeacherDto)
+        return teacher;
+    }
 
     findAll(): string {
         return "All";

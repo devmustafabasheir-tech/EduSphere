@@ -2,13 +2,19 @@ import { Injectable } from "@nestjs/common";
 import { Attendance } from "./attendance.schema";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
+import { CreateAttendanceDto } from "./dto/create-attendance.dto";
 
 @Injectable()
 
-export class AttendanceService{
-    constructor(@InjectModel(Attendance.name) private attendanceModule: Model<Attendance>) { };
-    
-     findAll(): string {
+export class AttendanceService {
+    constructor(@InjectModel(Attendance.name) private attendanceModel: Model<Attendance>) { };
+
+    async create(createAttendanceDto: CreateAttendanceDto) {
+        const attendance = await this.attendanceModel.create(createAttendanceDto)
+        return attendance;
+    }
+
+    findAll(): string {
         return "All";
     }
 

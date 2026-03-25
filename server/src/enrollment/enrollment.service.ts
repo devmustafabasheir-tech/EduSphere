@@ -2,12 +2,18 @@ import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { Enrollment } from "./enrollment.schema";
+import { CreateEnrollmentDto } from "./dto/create-enrollment.dto";
 
 @Injectable()
 export class EnrollmentService {
-    constructor(@InjectModel(Enrollment.name) private enrollmentModule: Model<Enrollment>) { };
+    constructor(@InjectModel(Enrollment.name) private enrollmentModel: Model<Enrollment>) { };
 
-   findAll(): string {
+    async create(createEnrollmentDto: CreateEnrollmentDto) {
+        const enrollment = await this.enrollmentModel.create(createEnrollmentDto)
+        return enrollment;
+    }
+
+    findAll(): string {
         return "All";
     }
 

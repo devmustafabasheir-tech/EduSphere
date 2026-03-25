@@ -2,10 +2,16 @@ import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Class } from "./class.schema";
 import { Model } from "mongoose";
+import { CreateClassDto } from "./dto/create-class.dto";
 
 @Injectable()
 export class ClassService {
-    constructor(@InjectModel(Class.name) private classModule: Model<Class>) { };
+    constructor(@InjectModel(Class.name) private classModel: Model<Class>) { };
+
+    async create(createClassDto: CreateClassDto) {
+        const classInfo = await this.classModel.create(createClassDto);
+        return classInfo;
+    }
 
     findAll(): string {
         return "All";

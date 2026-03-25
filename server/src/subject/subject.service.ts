@@ -2,12 +2,18 @@ import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { Subject } from "./subject.schema";
+import { CreateSubjectDto } from "./dto/create-subject.dto";
 
 @Injectable()
-export class SubjectService{
-        constructor(@InjectModel(Subject.name) private subjectModule: Model<Subject>) { };
-    
-     findAll(): string {
+export class SubjectService {
+    constructor(@InjectModel(Subject.name) private subjectModel: Model<Subject>) { };
+
+    async create(createSubjectDto: CreateSubjectDto) {
+        const subject = await this.subjectModel.create(createSubjectDto);
+        return subject;
+    }
+
+    findAll(): string {
         return "All";
     }
 
